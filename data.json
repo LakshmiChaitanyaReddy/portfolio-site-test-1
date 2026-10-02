@@ -1,0 +1,274 @@
+{
+  "pdf": {
+    "pages": "auto",
+    "paper": "a4",
+    "exclude": [],
+    "template": "executive",
+    "includeVisual": false
+  },
+  "theme": {
+    "mode": "light",
+    "vars": {
+      "dark": {},
+      "light": {},
+      "common": {}
+    },
+    "fonts": {},
+    "preset": "executive-navy",
+    "customThemes": [],
+    "iconAnimation": "lift"
+  },
+  "skills": [
+    {
+      "icon": "",
+      "items": [
+        "ITSM (Incident, Change, Problem, Catalog)",
+        "Customer Service Management (CSM)",
+        "Service Portal",
+        "HRSD",
+        "CMDB"
+      ],
+      "category": "Core Modules"
+    },
+    {
+      "icon": "",
+      "items": [
+        "JavaScript (GlideScript)",
+        "Script Includes",
+        "Business Rules",
+        "Glide APIs",
+        "REST/SOAP APIs",
+        "HTML",
+        "CSS",
+        "SQL"
+      ],
+      "category": "Development & APIs"
+    },
+    {
+      "icon": "",
+      "items": [
+        "Flow Designer",
+        "ServiceNow SDK",
+        "Postman",
+        "SoapUI",
+        "GitHub",
+        "Claude",
+        "ChatGPT",
+        "Slack"
+      ],
+      "category": "Platform Tools"
+    }
+  ],
+  "profile": {
+    "name": "Lakshmi Chaitanya Reddy Idamakanti",
+    "about": [
+      "ServiceNow Developer with 4.5+ years of experience specializing in Customer Service Management (CSM), HRSD, ITSM custom application development, and platform integrations. CSA and CAD certified with expertise in automated workflows using Flow Designer, Glide APIs, Script Includes, and Business Rules. Skilled in Service Portal, UI Builder, and REST/SOAP eBonding integrations with CMDB alignment. Leverages enterprise-approved AI tools to streamline technical development and drive solution delivery across Agile teams."
+    ],
+    "email": "lakshmichaitanyareddyi@gmail.com",
+    "links": [
+      {
+        "url": "https://www.linkedin.com/in/lakshmi-chaitanya-reddy-idamakanti-235a1b212/",
+        "icon": "linkedin",
+        "label": "LinkedIn"
+      },
+      {
+        "url": "https://github.com/LakshmiChaitanyaReddy",
+        "icon": "github",
+        "label": "GitHub"
+      },
+      {
+        "url": "https://www.servicenow.com/community/user/viewprofilepage/user-id/24805",
+        "icon": "",
+        "label": "Website"
+      }
+    ],
+    "phone": "+91 9959749269",
+    "photo": {
+      "alt": "",
+      "src": ""
+    },
+    "title": "Senior ServiceNow Developer",
+    "status": "Open to new roles",
+    "ogImage": {
+      "alt": "",
+      "src": ""
+    },
+    "siteUrl": "",
+    "tagline": "ServiceNow Developer with 4.5+ years of experience specializing in Customer Service Management (CSM), HRSD, ITSM custom application development, and platform integrations.",
+    "location": "",
+    "brandIcon": "",
+    "resumeUrl": "",
+    "shortName": "Lakshmi",
+    "yearsRounding": "",
+    "experienceYears": ""
+  },
+  "projects": [
+    {
+      "id": "proj-1",
+      "tech": [],
+      "blurb": "",
+      "image": {
+        "alt": "",
+        "src": ""
+      },
+      "links": [],
+      "title": "CSM – Customer Incident Communication Framework",
+      "result": "Integrated CSM Cases with ITSM Incidents using REST APIs to enable real-time bidirectional status updates and proactive customer notifications, reducing tier-1 support inquiry load.",
+      "problem": "",
+      "approach": "",
+      "featured": true
+    },
+    {
+      "id": "proj-2",
+      "tech": [],
+      "blurb": "Designed a reusable eBonding integration architecture utilizing REST/SOAP APIs to synchronize external customer data directly into ServiceNow CMDB records.",
+      "image": {
+        "alt": "",
+        "src": ""
+      },
+      "links": [],
+      "title": "eBonding & CMDB Integration Framework",
+      "result": "",
+      "problem": "",
+      "approach": "",
+      "featured": false
+    },
+    {
+      "id": "proj-3",
+      "tech": [],
+      "blurb": "",
+      "image": {
+        "alt": "",
+        "src": ""
+      },
+      "links": [],
+      "title": "JIRA to ServiceNow Data Migration",
+      "result": "Migrated 200K+ records using custom REST scripts and Glide APIs while ensuring zero data loss and post-migration script performance optimization.",
+      "problem": "",
+      "approach": "",
+      "featured": false
+    },
+    {
+      "id": "proj-4",
+      "tech": [],
+      "blurb": "Configured Catalog Builder interfaces and custom flows, empowering non-technical business users to deploy catalog items independently and reducing development lead time.",
+      "image": {
+        "alt": "",
+        "src": ""
+      },
+      "links": [],
+      "title": "Catalog Builder & OOTB Automation",
+      "result": "",
+      "problem": "",
+      "approach": "",
+      "featured": false
+    }
+  ],
+  "sections": [],
+  "template": {
+    "look": "executive-dossier",
+    "pack": "product-program",
+    "skeleton": "executive-dossier"
+  },
+  "education": [
+    {
+      "degree": "B.E. Computer Science",
+      "detail": "CGPA: 9.47/10",
+      "endYear": "2022",
+      "startYear": "2018",
+      "institution": "Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya"
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-1",
+      "role": "Senior ServiceNow Developer",
+      "tech": [
+        "Flow Designer",
+        "ServiceNow SDK",
+        "Claude",
+        "Slack"
+      ],
+      "company": "Fanatics",
+      "endDate": null,
+      "summary": "",
+      "location": "",
+      "startDate": "2026-05",
+      "highlights": [
+        "AI-Driven Workflow & Integration Optimization: Leveraged enterprise AI tools (Claude, ServiceNow SDK) to audit custom applications, automate repetitive design processes, and map end-to-end architecture diagrams via Lucid MCP for platform migration strategies.",
+        "Slack Spoke & Multi-Channel Approvals: Engineered dynamic approval payloads using Flow Designer and REST integrations to automate requests and cross-platform notifications."
+      ]
+    },
+    {
+      "id": "exp-2",
+      "role": "Software Engineer II",
+      "tech": [
+        "Service Portal",
+        "CMDB",
+        "Script Includes",
+        "Business Rules",
+        "Glide APIs",
+        "REST/SOAP APIs",
+        "Flow Designer"
+      ],
+      "company": "FIS",
+      "endDate": "2026-03",
+      "summary": "",
+      "location": "",
+      "startDate": "2022-06",
+      "highlights": [
+        "CSM & ITSM Implementation: Architected and customized ServiceNow CSM cases and ITSM modules (Incident",
+        "Problem, Change, Catalog), optimizing solution architecture and adherence to ITIL best practices.",
+        "Server & Client Scripting: Authored custom logic using Script Includes, Business Rules, UI Policies, and Glide APIs for complex CRUD operations and workflow execution.",
+        "Flow Designer & Process Automation: Configured OOTB workflows and created custom Flow Designer solutions to automate case routing, request fulfillment, and incident auto-prioritization.",
+        "CMDB & API Integrations: Developed eBonding integrations using REST/SOAP APIs to connect CMDB data models and third-party enterprise platforms seamlessly.",
+        "Service Portal & UI Builder: Built and enhanced custom Service Portal widgets and UI Builder components, improving external user engagement and internal support interface usability.",
+        "Testing & Quality Assurance: Authored UAT scripts, led functional validation testing, and conducted root-cause troubleshooting to maintain continuous platform stability and performance.",
+        "Agile & Governance: Participated in Agile ceremonies, stakeholder design reviews, and enforced secure platform controls through ACLs and secure API protocols."
+      ]
+    }
+  ],
+  "sectionOrder": [
+    "about",
+    "experience",
+    "projects",
+    "certifications",
+    "education",
+    "skills"
+  ],
+  "sectionLabels": {
+    "about": "Profile",
+    "skills": "Areas of expertise",
+    "projects": "Selected case studies",
+    "education": "Education",
+    "experience": "Career",
+    "certifications": "Credentials"
+  },
+  "certifications": [
+    {
+      "abbr": "",
+      "icon": "",
+      "name": "Certified System Administrator (CSA) ServiceNow",
+      "year": "",
+      "issuer": "",
+      "credentialUrl": ""
+    },
+    {
+      "abbr": "",
+      "icon": "",
+      "name": "Certified Application Developer (CAD) ServiceNow",
+      "year": "",
+      "issuer": "",
+      "credentialUrl": ""
+    },
+    {
+      "abbr": "",
+      "icon": "",
+      "name": "Certified Implementation Specialist – HRSD (CIS-HRSD) ServiceNow",
+      "year": "",
+      "issuer": "",
+      "credentialUrl": ""
+    }
+  ],
+  "hiddenSections": []
+}
