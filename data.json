@@ -78,8 +78,8 @@
       },
       {
         "url": "https://www.servicenow.com/community/user/viewprofilepage/user-id/24805",
-        "icon": "",
-        "label": "Website"
+        "icon": "globe",
+        "label": "ServiceNow Community"
       }
     ],
     "phone": "+91 9959749269",
@@ -97,8 +97,10 @@
     "tagline": "ServiceNow Developer with 4.5+ years of experience specializing in Customer Service Management (CSM), HRSD, ITSM custom application development, and platform integrations.",
     "location": "",
     "brandIcon": "",
-    "resumeUrl": "",
+    "resumeUrl": "assets/lakshmi-chaitanya-reddy-idamakanti-servi-7737b56d.pdf",
     "shortName": "Lakshmi",
+    "resumeMode": "file",
+    "resumeName": "Lakshmi_Chaitanya_Reddy_Idamakanti___ServiceNow_Developer.pdf",
     "yearsRounding": "",
     "experienceYears": ""
   },
@@ -168,7 +170,8 @@
   "template": {
     "look": "clean-recruiter",
     "pack": "software-it",
-    "skeleton": "clean-recruiter"
+    "skeleton": "clean-recruiter",
+    "careerChart": false
   },
   "education": [
     {

@@ -1350,6 +1350,7 @@ body[data-skeleton] .facts.facts-table { padding: 0; background: none; border: 0
 .gantt-label { display: flex; flex-direction: column; min-width: 0; padding-right: 1rem; font-size: .84rem; line-height: 1.35; }
 .gantt-label strong { color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
 .gantt-label span { color: var(--text-dim); font-size: .78rem; }
+.gantt-label .gantt-when { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .01em; }
 .gantt-lane { position: relative; height: 16px; }
 .gantt-bar { position: absolute; top: 0; bottom: 0; left: calc(var(--x) * 100%); width: max(6px, calc(var(--w) * 100%)); background: color-mix(in srgb, var(--accent) 45%, var(--surface-2)); border-radius: 4px; }
 .gantt-row.is-current .gantt-bar { background: var(--accent); }
@@ -1485,6 +1486,27 @@ body[data-skeleton="data-report"] .table-rows .rr-when { font-variant-numeric: t
 [data-theme-style="soft-modern"] body[data-skeleton] .btn-primary { box-shadow: 0 10px 26px -12px var(--accent); }
 
 /* High Contrast: underlined links, heavy outlines, no fades or glass. */
+/* ---- Apple Glass: frosted translucent surfaces over a colour wash ---- */
+[data-theme-style="apple-glass"] body[data-skeleton] :is(.skill-card, .cert-card, .edu-card, .custom-card, .service-card, .quote-card, .project-card, .facts, .chart, .report-card, .readme, .code-file, .ledger-rows, .case-steps li, .kpi-strip > div, .dossier-card, .term-window, .id-card, .gantt) {
+  background: color-mix(in srgb, var(--surface) 58%, transparent); border-color: color-mix(in srgb, var(--surface) 55%, var(--border));
+  -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%); }
+[data-theme-style="apple-glass"] .site-header, [data-theme-style="apple-glass"] #site-header { background: color-mix(in srgb, var(--bg) 62%, transparent); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); border-bottom-color: color-mix(in srgb, var(--border) 70%, transparent); }
+[data-theme-style="apple-glass"] body[data-skeleton] .chip { background: color-mix(in srgb, var(--surface) 55%, transparent); border-color: color-mix(in srgb, var(--border) 80%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+[data-theme-style="apple-glass"] body[data-skeleton] .btn-primary { box-shadow: 0 10px 28px -12px var(--accent); }
+[data-theme-style="apple-glass"] body[data-skeleton] .hero-photo { border-radius: 28%; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { [data-theme-style="apple-glass"] body[data-skeleton] :is(.skill-card, .cert-card, .edu-card, .custom-card, .service-card, .quote-card, .project-card, .facts, .chart, .report-card, .readme, .code-file, .ledger-rows, .case-steps li, .kpi-strip > div, .dossier-card, .id-card, .gantt) { background: var(--surface); } }
+/* ---- Porcelain: hairlines, crisp white ---- */
+[data-theme-style="porcelain"] body[data-skeleton] :is(.skill-card, .cert-card, .edu-card, .custom-card, .service-card, .quote-card, .project-card, .facts, .chart, .report-card, .ledger-rows, .dossier-card, .gantt) { border-color: var(--border); box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+[data-theme-style="porcelain"] body[data-skeleton] .btn-primary { box-shadow: none; }
+/* ---- Sky Calm: soft blue wash, pill chips ---- */
+[data-theme-style="sky-calm"] body[data-skeleton] .hero::before { display: block; top: -50%; left: 80%; width: min(900px, 130vw); background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%); }
+[data-theme-style="sky-calm"] body[data-skeleton] .chip { background: var(--accent-soft); border-color: transparent; color: var(--text); }
+/* ---- Sage Calm: soft cards, gentle serif ---- */
+[data-theme-style="sage-calm"] body[data-skeleton] .chip { background: var(--surface-2); border-color: transparent; }
+[data-theme-style="sage-calm"] body[data-skeleton] :is(.hero h1, .section-head h2) { font-weight: 600; }
+/* ---- Sand & Linen: paper warmth, hairline rules ---- */
+[data-theme-style="sand-linen"] body[data-skeleton] :is(.skill-card, .cert-card, .edu-card, .custom-card, .service-card, .quote-card, .project-card, .facts, .chart, .report-card, .ledger-rows, .dossier-card, .gantt) { background: var(--surface); border-color: var(--border-2); }
+[data-theme-style="sand-linen"] body[data-skeleton] .btn-primary { background: var(--accent); }
 [data-theme-style="high-contrast"] body[data-skeleton] .reveal { opacity: 1; transform: none; transition: none; }
 [data-theme-style="high-contrast"] body[data-skeleton] .site-header { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom: 2px solid var(--text); }
 [data-theme-style="high-contrast"] body[data-skeleton] :is(main, footer) a:not(.btn) { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }

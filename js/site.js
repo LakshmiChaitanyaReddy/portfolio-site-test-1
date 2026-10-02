@@ -58,6 +58,9 @@
      edits show in both. Only that one window is listened to. */
   const PREVIEW_HOST = window.parent !== window ? window.parent : (window.opener || null);
   const PREVIEW = !!PREVIEW_HOST && new URLSearchParams(window.location.search).has("preview");
+  /* The renderer shows placeholders that only make sense while editing (the
+     resume button of a PDF that is built at publish time). */
+  if (PREVIEW) document.documentElement.setAttribute("data-pf-preview", "");
   /* Static deploys (GitHub Pages) fetch the local data.json next to this
      file, same as always. A hosted deploy of the service can instead set
      <meta name="pf-data-url" content="/api/public/sites/SLUG"> in the HTML

@@ -6,7 +6,7 @@
    and app.html both declare sane defaults for every property, so a missing
    theme degrades to the default look.
 
-   Ten themes, each a different MOOD rather than a colour swap. Every theme
+   Fifteen themes, each a different MOOD rather than a colour swap. Every theme
    authors all of:
      colour      twelve colours per mode (light AND dark — see mode())
      typography  display / body / mono families from FONTS, weight, tracking,
@@ -25,7 +25,7 @@
 
    COMPATIBILITY: customer sites store a theme id. The 28 retired ids resolve
    through ALIASES to the new theme with the closest mood; an unknown id falls
-   back to minimal-light. THEMES only lists the ten current themes.
+   back to minimal-light. THEMES only lists the fifteen current themes.
 
    ADDING A PRESET: append one object to THEMES. Nothing else to touch —
    the builder's gallery, the var editor and the validator all read this list.
@@ -58,6 +58,9 @@
     "Nunito Sans":           { spec: "Nunito+Sans:wght@400;500;600;700", kind: "sans" },
     "DM Sans":               { spec: "DM+Sans:wght@400;500;700", kind: "sans" },
     "Atkinson Hyperlegible": { spec: "Atkinson+Hyperlegible:wght@400;700", kind: "sans" },
+    "Plus Jakarta Sans":     { spec: "Plus+Jakarta+Sans:wght@400;500;600;700", kind: "sans" },
+    "Hanken Grotesk":        { spec: "Hanken+Grotesk:wght@400;500;600;700", kind: "sans" },
+    "Public Sans":           { spec: "Public+Sans:wght@400;500;600;700", kind: "sans" },
 
     "Fraunces":              { spec: "Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700", kind: "serif" },
     "Playfair Display":      { spec: "Playfair+Display:wght@500;600;700;800", kind: "serif" },
@@ -243,6 +246,69 @@
           "--section-y": "clamp(4rem, 8vw, 6rem)" }),
         light: mode("#0030c4", "#ffffff", "#f2f2f2", "#ffffff", "#ededed", "#000000", "#141414", "#3a3a3a", "#6b6b6b", "#000000", "#b00020", "#6b4b00"),
         dark:  mode("#ffe14d", "#000000", "#0d0d0d", "#000000", "#1a1a1a", "#ffffff", "#f0f0f0", "#d0d0d0", "#8a8a8a", "#ffffff", "#ff8a80", "#ffd166")
+      }
+    },
+    {
+      id: "apple-glass", name: "Apple Glass", category: "Modern", style: "apple-glass", defaultMode: "light",
+      blurb: "Frosted, translucent cards over a soft colour wash, large radii and a system-blue accent. Light, airy, premium.",
+      fonts: { display: "Plus Jakarta Sans", body: "Inter", mono: "JetBrains Mono" },
+      vars: {
+        common: shape({ "--radius": "22px", "--radius-sm": "14px", "--chip-radius": "999px", "--maxw": "1080px", "--gap": "1.3rem",
+          "--h-weight": "650", "--h-tracking": "-0.032em", "--line-height": "1.7", "--section-y": "clamp(4.5rem, 9vw, 7.5rem)",
+          "--card-shadow": "0 1px 0 rgba(255,255,255,.55) inset, 0 18px 44px -22px rgba(24,36,72,.32)", "--card-border-width": "1px",
+          "--card-backdrop": "blur(22px) saturate(180%)",
+          "--page-pattern": "radial-gradient(60rem 34rem at 12% -8%, var(--accent-soft), transparent 62%), radial-gradient(44rem 26rem at 96% 6%, rgba(176,75,240,.13), transparent 64%)",
+          "--button-radius": "999px", "--card-lift": "-4px", "--eyebrow-tracking": ".1em" }),
+        light: mode("#0062cc", "#eef2f9", "#e3e9f4", "#ffffff", "#f1f4fa", "#1d1d1f", "#3a3f4b", "#586074", "#d6deec", "#bcc7dc", "#c0262d", "#8a5a00"),
+        dark:  mode("#6cb6ff", "#0a0d16", "#0f1320", "#151a2a", "#1c2338", "#f5f5f7", "#d3d8e6", "#a5adc2", "#262e47", "#37415f", "#ff7a85", "#e3b341")
+      }
+    },
+    {
+      id: "porcelain", name: "Porcelain", category: "Minimal", style: "porcelain", defaultMode: "light",
+      blurb: "Crisp white, cool blue-grey type and hairline rules. Clean, quiet and precise, in the spirit of a product page.",
+      fonts: { display: "Hanken Grotesk", body: "Source Sans 3", mono: "IBM Plex Mono" },
+      vars: {
+        common: shape({ "--radius": "14px", "--radius-sm": "10px", "--chip-radius": "8px", "--maxw": "1060px", "--gap": "1.2rem",
+          "--h-weight": "650", "--h-tracking": "-0.026em", "--line-height": "1.68", "--section-y": "clamp(4.25rem, 8.5vw, 6.5rem)",
+          "--card-shadow": "0 1px 2px rgba(16,24,40,.05)", "--button-radius": "10px", "--card-lift": "-2px", "--eyebrow-tracking": ".08em" }),
+        light: mode("#1a56db", "#ffffff", "#f5f7fa", "#ffffff", "#f0f3f8", "#101828", "#344054", "#566075", "#e4e8ef", "#cdd3de", "#b42318", "#8a5a00"),
+        dark:  mode("#7aa7ff", "#0b0f17", "#10151f", "#151b27", "#1c2434", "#f4f6fa", "#cfd6e3", "#a0aabd", "#232c3d", "#33405a", "#ff7b72", "#e3b341")
+      }
+    },
+    {
+      id: "sky-calm", name: "Sky Calm", category: "Professional", style: "sky-calm", defaultMode: "light",
+      blurb: "Pale clinical blue, soft teal and gentle rounded cards. Calm and trustworthy, made for care and service professions.",
+      fonts: { display: "Figtree", body: "Public Sans", mono: "Roboto Mono" },
+      vars: {
+        common: shape({ "--radius": "16px", "--radius-sm": "10px", "--chip-radius": "999px", "--maxw": "1070px", "--gap": "1.25rem",
+          "--h-weight": "650", "--h-tracking": "-0.022em", "--line-height": "1.74", "--section-y": "clamp(4.5rem, 9vw, 7rem)",
+          "--card-shadow": "0 1px 2px rgba(10,60,80,.06), 0 12px 28px -18px rgba(10,60,80,.22)", "--button-radius": "12px", "--card-lift": "-3px", "--eyebrow-tracking": ".1em" }),
+        light: mode("#0a6e7d", "#f1f8fa", "#e5f1f4", "#ffffff", "#eaf4f7", "#10252b", "#2f4a52", "#4e6870", "#d3e4ea", "#b7d0d9", "#b42318", "#8a5a00"),
+        dark:  mode("#5fd0e0", "#0a1417", "#0e1b1f", "#12232a", "#182c34", "#eaf6f8", "#c0d6dc", "#93b0b8", "#1f353d", "#2c4852", "#ff7b72", "#e3b341")
+      }
+    },
+    {
+      id: "sage-calm", name: "Sage Calm", category: "Professional", style: "sage-calm", defaultMode: "light",
+      blurb: "Soft sage greens on warm off-white with a gentle serif heading. Warm, patient and reassuring; good for teaching and wellbeing.",
+      fonts: { display: "Lora", body: "Karla", mono: "Roboto Mono" },
+      vars: {
+        common: shape({ "--radius": "18px", "--radius-sm": "12px", "--chip-radius": "999px", "--maxw": "1040px", "--gap": "1.3rem",
+          "--h-weight": "600", "--h-tracking": "-0.012em", "--line-height": "1.8", "--section-y": "clamp(4.5rem, 9vw, 7.25rem)",
+          "--card-shadow": "0 1px 2px rgba(31,42,34,.05), 0 10px 26px -18px rgba(31,42,34,.2)", "--button-radius": "999px", "--card-lift": "-2px", "--eyebrow-tracking": ".12em" }),
+        light: mode("#3f6b4f", "#f6f7f2", "#ecefe6", "#fdfdfa", "#eef1e8", "#1f2a22", "#3e4b42", "#5d6a60", "#dfe4d6", "#c9d1bd", "#b42318", "#8a5a00"),
+        dark:  mode("#9ad0a8", "#0f1511", "#141b16", "#19211c", "#212b24", "#eef3ec", "#cbd6cb", "#9fb0a2", "#26332a", "#364638", "#ff8a80", "#e3b341")
+      }
+    },
+    {
+      id: "sand-linen", name: "Sand & Linen", category: "Executive", style: "sand-linen", defaultMode: "light",
+      blurb: "Warm sand and linen neutrals, a serif heading and copper accent. Quietly confident for advisory, legal and finance work.",
+      fonts: { display: "Source Serif 4", body: "Work Sans", mono: "IBM Plex Mono" },
+      vars: {
+        common: shape({ "--radius": "8px", "--radius-sm": "6px", "--chip-radius": "6px", "--maxw": "1090px", "--gap": "1.2rem",
+          "--h-weight": "600", "--h-tracking": "-0.016em", "--line-height": "1.76", "--section-y": "clamp(4.5rem, 9vw, 7rem)",
+          "--card-shadow": "none", "--card-border-width": "1px", "--button-radius": "6px", "--card-lift": "-2px", "--eyebrow-tracking": ".14em" }),
+        light: mode("#9a4f1f", "#faf6ef", "#f1ebdf", "#fffdf8", "#f3ede1", "#2a2118", "#4d4132", "#6c5e4b", "#e6dccb", "#d3c5ad", "#b42318", "#7a5200"),
+        dark:  mode("#e8a56e", "#14110d", "#1a1611", "#201b15", "#29231b", "#f6efe3", "#d8cdb9", "#aa9d86", "#322a20", "#45392b", "#ff8a80", "#e3b341")
       }
     }
   ];

@@ -5,7 +5,7 @@
    paint() is idempotent: it clears and rebuilds, which is what lets the
    builder's Preview tab re-render on every keystroke.
 
-   TEMPLATES. js/skeletons.js names eight templates; each one gets its own
+   TEMPLATES. js/skeletons.js names eight page structures (js/looks.js turns them into the customer-facing templates); each one gets its own
    hero and, where the structure really differs, its own section renderers
    in VIEWS below (a CV row is not a recoloured card). Anything a template
    does not override falls through to the default renderers, so a custom
@@ -132,10 +132,25 @@
 
   function certShort(d) { return arr(d.certifications).map(function (c) { return c.abbr || c.name; }).filter(has); }
 
+  /* Where the site's resume button points, or "" for no button.
+       off        never
+       file       the person's own file (or link)
+       generated  a PDF built when they publish; the published document then
+                  carries its address. While editing there is no address yet,
+                  so the preview shows the button as a placeholder. */
+  function resumeHref(p) {
+    if (!p || p.resumeMode === "off") return "";
+    const previewing = typeof document !== "undefined" && document.documentElement && document.documentElement.hasAttribute("data-pf-preview");
+    if (p.resumeMode === "generated") return previewing ? "#resume-built-on-publish" : (has(p.resumeUrl) ? p.resumeUrl : "");
+    return has(p.resumeUrl) ? p.resumeUrl : "";
+  }
+
   function resumeButton(p, refs, cls, text) {
-    if (!has(p.resumeUrl)) return null;
-    let btn = el("a", { class: cls || "btn btn-ghost", href: p.resumeUrl, download: true }, icon("download"), text || "Download Resume");
-    if (refs && typeof refs.guard === "function") btn = refs.guard(btn, p.resumeUrl);
+    const href = resumeHref(p);
+    if (!has(href)) return null;
+    if (href.charAt(0) === "#") return el("a", { class: cls || "btn btn-ghost", href: href, title: "Visitors will download a PDF of your resume, built when you publish.", onclick: function (e) { e.preventDefault(); } }, icon("download"), text || "Download Resume");
+    let btn = el("a", { class: cls || "btn btn-ghost", href: href, download: true }, icon("download"), text || "Download Resume");
+    if (refs && typeof refs.guard === "function") btn = refs.guard(btn, href);
     return btn;
   }
 
@@ -431,8 +446,8 @@
         return { href: l.url, icon: l.icon || (PF.icons ? PF.icons.guess(l.label, l.url) : "link"),
                  text: l.label || l.url, external: true, kind: "link" };
      }))
-     .concat(has(p.resumeUrl)
-        ? [{ href: p.resumeUrl, icon: "file-down", text: "Download Resume (PDF)", download: true, guard: true, kind: "resume" }] : []);
+     .concat(has(resumeHref(p))
+        ? [{ href: resumeHref(p), icon: "file-down", text: "Download Resume", download: resumeHref(p).charAt(0) !== "#", guard: resumeHref(p).charAt(0) !== "#", kind: "resume" }] : []);
   }
 
   function contactAnchor(it, refs) {
@@ -493,7 +508,7 @@
               has(p.title) && el("p", { class: "hero-role", text: p.title }))),
           has(p.tagline) && el("p", { class: "hero-pitch reveal", style: "--delay:80ms" }, F.rich(p.tagline)),
           contactBits.length > 0 && el("p", { class: "hero-meta reveal", style: "--delay:140ms" }, contactBits),
-          (has(p.email) || has(p.resumeUrl)) && el("div", { class: "hero-cta reveal", style: "--delay:200ms" },
+          (has(p.email) || has(resumeHref(p))) && el("div", { class: "hero-cta reveal", style: "--delay:200ms" },
             mailButton(p), resumeButton(p, refs)),
           has(p.status) && el("p", { class: "hero-tag reveal", style: "--delay:240ms" }, el("span", { class: "pulse", "aria-hidden": "true" }), p.status),
           statList(heroStats(d), "rc-stats")));
@@ -612,7 +627,7 @@
                 has(p.location) && el("span", null, icon("map-pin"), p.location)),
               stats.length > 0 && el("p", { class: "term-line", "aria-hidden": "true" }, el("span", { class: "term-prompt", text: "$" }), " stats --summary"),
               statList(stats, "term-stats"),
-              (has(p.email) || has(p.resumeUrl)) && el("div", { class: "hero-cta" },
+              (has(p.email) || has(resumeHref(p))) && el("div", { class: "hero-cta" },
                 mailButton(p), resumeButton(p, refs, "btn btn-ghost", "resume.pdf"))))));
     },
     about: function (d, sk) {
@@ -708,7 +723,7 @@
               has(p.title) && el("p", { class: "hero-role reveal", text: p.title }),
               el("h1", { id: "hero-title", class: "reveal", style: "--delay:60ms", text: p.name || "" }),
               has(p.tagline) && el("p", { class: "hero-pitch reveal", style: "--delay:120ms" }, F.rich(p.tagline)),
-              (has(p.email) || has(p.resumeUrl)) && el("div", { class: "hero-cta reveal", style: "--delay:180ms" },
+              (has(p.email) || has(resumeHref(p))) && el("div", { class: "hero-cta reveal", style: "--delay:180ms" },
                 mailButton(p, "Contact"), resumeButton(p, refs, "btn btn-ghost", "Download CV")),
               has(p.status) && el("p", { class: "hero-tag reveal", style: "--delay:220ms", text: p.status })),
             (image(p.photo) || glance.length > 0) && el("aside", { class: "dossier-card reveal", style: "--delay:160ms", "aria-label": "At a glance" },
@@ -798,7 +813,7 @@
               el("h1", { id: "hero-title", text: p.name || "" }),
               has(p.title) && el("p", { class: "hero-role", text: joinDot([p.title, p.location]) }))),
           has(p.tagline) && el("p", { class: "hero-pitch statement reveal", style: "--delay:80ms" }, F.rich(p.tagline)),
-          (has(p.email) || has(p.resumeUrl) || has(p.status)) && el("div", { class: "hero-cta reveal", style: "--delay:160ms" },
+          (has(p.email) || has(resumeHref(p)) || has(p.status)) && el("div", { class: "hero-cta reveal", style: "--delay:160ms" },
             mailButton(p), list.length > 0 && el("a", { class: "btn btn-ghost", href: "#projects" }, icon("arrow-down"), "Read the case studies"), resumeButton(p, refs)),
           has(p.status) && el("p", { class: "hero-tag reveal", style: "--delay:200ms" }, el("span", { class: "pulse", "aria-hidden": "true" }), p.status),
           list.length > 0 && el("nav", { class: "case-index reveal", style: "--delay:240ms", "aria-label": "Case study index" },
@@ -880,7 +895,7 @@
             cur && has(cur.company) && el("p", { class: "affil reveal", text: cur.company }),
             has(p.tagline) && el("p", { class: "hero-pitch reveal" }, F.rich(p.tagline)),
             ids.length > 0 && el("ul", { class: "id-list reveal", role: "list" }, ids),
-            has(p.resumeUrl) && el("div", { class: "hero-cta reveal" }, resumeButton(p, refs, "btn btn-ghost", "CV (PDF)")))));
+            has(resumeHref(p)) && el("div", { class: "hero-cta reveal" }, resumeButton(p, refs, "btn btn-ghost", "CV (PDF)")))));
     },
     about: function (d, sk) {
       return wrap("about", null, "about-title", [sectionHead(null, aboutTitle(d, sk), "about-title"), aboutParas(d)]);
@@ -1087,7 +1102,7 @@
             el("div", { class: "poster-side" },
               has(p.status) && el("p", { class: "hero-tag" }, el("span", { class: "pulse", "aria-hidden": "true" }), p.status),
               has(p.location) && el("p", { class: "hero-meta" }, icon("map-pin"), p.location),
-              (has(p.email) || has(p.resumeUrl)) && el("div", { class: "hero-cta" }, mailButton(p, "Say hello"), resumeButton(p, refs)))),
+              (has(p.email) || has(resumeHref(p))) && el("div", { class: "hero-cta" }, mailButton(p, "Say hello"), resumeButton(p, refs)))),
           arr(d.projects).length > 0 && el("a", { class: "scroll-cue reveal", href: "#projects", style: "--delay:200ms" }, "View the work", icon("arrow-down"))));
     },
     projects: function (d, sk) {
@@ -1199,7 +1214,9 @@
         el("ol", { class: "gantt-rows", role: "list" }, jobs.map(function (j) {
           const range = F.fmtRange(j.job.startDate, j.job.endDate, true);
           return el("li", { class: "gantt-row" + (!has(j.job.endDate) ? " is-current" : ""), title: [j.job.role, j.job.company, range].filter(has).join(" · ") },
-            el("span", { class: "gantt-label" }, el("strong", { text: j.job.role || "Role" }), has(j.job.company) && el("span", { text: j.job.company })),
+            el("span", { class: "gantt-label" }, el("strong", { text: j.job.role || "Role" }), has(j.job.company) && el("span", { text: j.job.company }),
+              /* when you joined and left, in words, so the bar is never the only source */
+              el("span", { class: "gantt-when", text: range })),
             el("span", { class: "gantt-lane", "aria-hidden": "true" },
               el("span", { class: "gantt-bar", style: "--x:" + ((j.s - start) / span).toFixed(4) + ";--w:" + ((j.e - j.s) / span).toFixed(4) })),
             el("span", { class: "visually-hidden", text: range }));
@@ -1216,7 +1233,7 @@
             el("h1", { id: "hero-title", text: p.name || "" }),
             has(p.title) && el("p", { class: "hero-role", text: p.title }),
             has(p.tagline) && el("p", { class: "hero-pitch" }, F.rich(p.tagline)),
-            (has(p.email) || has(p.resumeUrl)) && el("div", { class: "hero-cta" }, mailButton(p), resumeButton(p, refs))),
+            (has(p.email) || has(resumeHref(p))) && el("div", { class: "hero-cta" }, mailButton(p), resumeButton(p, refs))),
           k.length > 0 && el("dl", { class: "hero-stats kpi-strip reveal", style: "--delay:120ms" }, k.map(function (s) {
             return el("div", { "data-stat": s.key }, el("dt", { text: s.n }), el("dd", { text: s.label }));
           }))));
@@ -1247,7 +1264,7 @@
     experience: function (d, sk, refs, n) {
       return wrap("experience", "section-alt", "experience-title", [
         sectionHead("Section " + pad2(n), heading(d, sk, "experience"), "experience-title"),
-        ganttChart(d),
+        PF.skeletons.careerChart(d).on ? ganttChart(d) : null,
         el("ol", { class: "ledger-rows" }, F.byStartDesc(d.experience, "startDate").map(function (job, i) {
           const dur = F.fmtDuration(F.monthsBetween(job.startDate, job.endDate));
           return el("li", { class: "ledger-row reveal", style: "--delay:" + Math.min(i, 4) * 50 + "ms" },
@@ -1313,7 +1330,16 @@
     const builtins = [
       { id: "about", when: function () { return has(d.profile.about); }, render: pick("about", about) },
       { id: "skills", when: function () { return arr(d.skills).length > 0; }, render: pick("skills", skills) },
-      { id: "experience", when: function () { return arr(d.experience).length > 0; }, render: pick("experience", experience) },
+      { id: "experience", when: function () { return arr(d.experience).length > 0; }, render: function (n, refs) {
+          const node = pick("experience", experience)(n, refs);
+          /* Offered by several templates (the Data Analyst one draws its own): the
+             chart goes just above the list of roles, whatever the list is called. */
+          if (node && sk.id !== "data-report" && PF.skeletons && PF.skeletons.careerChart(d).on) {
+            const chart = ganttChart(d), list = node.querySelector("ol");
+            if (chart && list && list.parentNode) list.parentNode.insertBefore(chart, list);
+          }
+          return node;
+        } },
       { id: "projects", when: function () { return arr(d.projects).length > 0; }, render: pick("projects", projects) },
       { id: "certifications", when: function () { return arr(d.certifications).length > 0; }, render: pick("certifications", certifications) },
       { id: "education", when: function () { return arr(d.education).length > 0; }, render: pick("education", education) }

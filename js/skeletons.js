@@ -38,7 +38,7 @@
 
   const SKELETONS = [
     {
-      id: "clean-recruiter", name: "Clean Recruiter",
+      careerChart: "default", id: "clean-recruiter", name: "Clean Recruiter",
       blurb: "Calm single column that reads like a well-set resume: strong summary, experience first, skills as plain lists. ATS-friendly and quick to scan.",
       navMode: "top", heroVariant: "recruiter", showStatBand: true, density: "normal", brand: "full", filters: false,
       order: ["about", "experience", "skills", "projects", "education", "certifications"],
@@ -60,7 +60,7 @@
       ]
     },
     {
-      id: "technical-terminal", name: "Technical Terminal",
+      careerChart: "default", id: "technical-terminal", name: "Technical Terminal",
       blurb: "Command-line inspired: a file-tree side rail, a terminal-window hero, projects as repositories, skills as a config file and experience as a commit log.",
       navMode: "side", heroVariant: "terminal", showStatBand: true, density: "dense", brand: "path", filters: true,
       order: ["projects", "skills", "experience", "about", "certifications", "education"],
@@ -78,7 +78,7 @@
       ]
     },
     {
-      id: "executive-dossier", name: "Executive Dossier",
+      careerChart: "default", id: "executive-dossier", name: "Executive Dossier",
       blurb: "A premium leadership profile: portrait and at-a-glance panel, selected achievements, index-numbered chapters and case studies told as challenge, approach and outcome.",
       navMode: "top", heroVariant: "dossier", showStatBand: false, density: "normal", brand: "full", filters: false,
       order: ["about", "experience", "projects", "certifications", "education", "skills"],
@@ -98,7 +98,7 @@
       ]
     },
     {
-      id: "product-case-study", name: "Product Case Study",
+      careerChart: "optional", id: "product-case-study", name: "Product Case Study",
       blurb: "Your positioning line is the headline and each project is a full chapter — problem, approach, result — with a numbered case index up front. For designers, PMs and product people.",
       navMode: "top", heroVariant: "statement", showStatBand: false, density: "normal", brand: "first", filters: false,
       order: ["projects", "about", "experience", "skills", "education", "certifications"],
@@ -118,7 +118,7 @@
       ]
     },
     {
-      id: "academic-cv", name: "Academic CV",
+      careerChart: "default", id: "academic-cv", name: "Academic CV",
       blurb: "The classic academic homepage: a sticky identity column with affiliation and links beside a CV — research, publications as numbered citations, education and appointments by date.",
       navMode: "top", heroVariant: "sidebar", showStatBand: false, density: "dense", brand: "full", filters: false, sectionContainer: true,
       order: ["about", "education", "experience", "projects", "certifications", "skills"],
@@ -178,7 +178,7 @@
       ]
     },
     {
-      id: "data-report", name: "Data Analyst Report",
+      careerChart: "default", id: "data-report", name: "Data Analyst Report",
       blurb: "Reads like a well-built dashboard: a KPI strip computed from your own data, a career timeline chart, skill-coverage bars, and case studies laid out as findings.",
       navMode: "top", heroVariant: "report", showStatBand: true, density: "normal", brand: "first", filters: true,
       order: ["about", "projects", "skills", "experience", "certifications", "education"],
@@ -221,6 +221,19 @@
     return ALIASES[id] && INDEX[ALIASES[id]] ? ALIASES[id] : null;
   }
   function byId(id) { return INDEX[canonical(id) || FALLBACK]; }
+
+  /* The "roles over time" chart. A template offers it ("optional") or shows it
+     by default ("default"); template.careerChart = true / false is the
+     person's choice. Templates that don't list it never draw it. */
+  function careerChart(data) {
+    const t = (data && data.template) || {};
+    const mode = byId(t.skeleton).careerChart;
+    /* "default" templates draw it on their own once there are two dated roles
+       (one bar tells you nothing); an explicit choice always wins. */
+    const dated = ((data && data.experience) || []).filter(function (j) { return /(19|20)\d{2}/.test(String(j && j.startDate || "")); }).length;
+    const auto = mode === "default" && t.careerChart !== false && dated >= 2;
+    return { supported: !!mode, on: !!mode && (t.careerChart === true || auto), dated: dated };
+  }
   function ids() { return SKELETONS.map(function (s) { return s.id; }); }
 
   PF.provide("skeletons", {
@@ -229,6 +242,7 @@
     DEFAULT: FALLBACK,
     canonical: canonical,
     byId: byId,
+    careerChart: careerChart,
     ids: ids
   });
 })();
