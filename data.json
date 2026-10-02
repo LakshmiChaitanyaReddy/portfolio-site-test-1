@@ -3,18 +3,18 @@
     "pages": "auto",
     "paper": "a4",
     "exclude": [],
-    "template": "executive",
+    "template": "modern",
     "includeVisual": false
   },
   "theme": {
-    "mode": "light",
+    "mode": "dark",
     "vars": {
       "dark": {},
       "light": {},
       "common": {}
     },
     "fonts": {},
-    "preset": "executive-navy",
+    "preset": "bold-gradient",
     "customThemes": [],
     "iconAnimation": "lift"
   },
@@ -166,9 +166,9 @@
   ],
   "sections": [],
   "template": {
-    "look": "executive-dossier",
-    "pack": "product-program",
-    "skeleton": "executive-dossier"
+    "look": "creative-showcase",
+    "pack": "design-creative",
+    "skeleton": "creative-showcase"
   },
   "education": [
     {
@@ -229,20 +229,20 @@
     }
   ],
   "sectionOrder": [
+    "projects",
     "about",
     "experience",
-    "projects",
-    "certifications",
+    "skills",
     "education",
-    "skills"
+    "certifications"
   ],
   "sectionLabels": {
-    "about": "Profile",
-    "skills": "Areas of expertise",
-    "projects": "Selected case studies",
+    "about": "About",
+    "skills": "Disciplines",
+    "projects": "Work",
     "education": "Education",
-    "experience": "Career",
-    "certifications": "Credentials"
+    "experience": "Clients & roles",
+    "certifications": "Recognition"
   },
   "certifications": [
     {
