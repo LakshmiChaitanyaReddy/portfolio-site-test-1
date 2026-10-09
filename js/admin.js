@@ -1067,16 +1067,10 @@
           type: "button", class: "theme-card", "aria-pressed": String(selected),
           onclick: function () { choosePreset(t.id); }
         },
-          el("span", { class: "theme-preview-wrap" },
-            el("span", { class: "theme-mode-label", text: editMode + " preview" }),
-            el("span", { class: "theme-mock", style: previewStyle(t) },
-              el("span", { class: "m-nav" }, el("i", { class: "m-logo" }),
-                el("span", { class: "m-navlinks" }, el("i"), el("i"), el("i"))),
-              el("i", { class: "m-eyebrow" }),
-              el("i", { class: "m-title" }),
-              el("span", { class: "m-copy" }, el("i"), el("i")),
-              el("span", { class: "m-actions" }, el("i", { class: "m-button" }), el("i", { class: "m-button alt" })),
-              el("span", { class: "m-cards" }, el("i", { class: "m-card" }), el("i", { class: "m-card" })))),
+          el("span", { class: "theme-site-thumb", style: previewStyle(t) },
+            el("iframe", { loading: "lazy", tabindex: "-1", "aria-hidden": "true",
+              "data-theme-preview": t.id, src: "index.html?preview=1", title: "" }),
+            el("span", { class: "theme-loading", text: "Rendering real portfolio…" })),
           el("span", { class: "theme-body" },
             el("strong", { text: t.name + (isCustom ? " (yours)" : "") }),
             el("span", { text: t.blurb || "Custom template." }),
@@ -1651,6 +1645,13 @@
      PREVIEW BRIDGE
      ==================================================================== */
   window.addEventListener("message", function (e) {
+    const cardFrame = Array.prototype.find.call(document.querySelectorAll("iframe[data-theme-preview]"), function (f) {
+      return e.source === f.contentWindow;
+    });
+    if (cardFrame && e.data && e.data.type === "portfolio:preview-ready") {
+      sendThemeCardPreview(cardFrame);
+      return;
+    }
     const themeFrame = document.getElementById("theme-live-frame");
     if (themeFrame && e.source === themeFrame.contentWindow && e.data && e.data.type === "portfolio:preview-ready") {
       themePreviewReady = true;
@@ -1663,6 +1664,26 @@
     previewReady = true;
     sendPreview();
   });
+
+  function sendThemeCardPreview(frame) {
+    if (!frame || !frame.contentWindow) return;
+    const previewData = JSON.parse(serialise());
+    previewData.theme = Object.assign({}, previewData.theme, {
+      preset: frame.getAttribute("data-theme-preview"),
+      fonts: {},
+      vars: { common: {}, dark: {}, light: {} }
+    });
+    frame.contentWindow.postMessage({
+      type: "portfolio:data",
+      data: previewData,
+      mode: editMode,
+      view: "site",
+      template: data.pdf.template,
+      paper: data.pdf.paper
+    }, "*");
+    const host = frame.parentElement;
+    if (host) host.classList.add("is-ready");
+  }
 
   function sendThemePreview() {
     const frame = document.getElementById("theme-live-frame");
