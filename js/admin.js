@@ -41,6 +41,8 @@
   let savedSnapshot = "";
   let activeTab = "profile";
   let previewReady = false;
+  let themePreviewReady = false;
+  let themePreviewDevice = "desktop";
   let previewView = "site";
   let editMode = "dark";
   let applyThemeHere = false;
@@ -1020,21 +1022,61 @@
       "Pick a starting template, then tune anything. Every change is stored in data.json as a handful of CSS " +
       "variables — the site reads them at load, so there's nothing to rebuild." }));
 
+    const deviceSwitch = el("div", { class: "mode-switch", role: "group", "aria-label": "Theme preview size" },
+      [["desktop", "Desktop"], ["mobile", "Mobile"]].map(function (d) {
+        return el("button", { type: "button", "aria-pressed": String(themePreviewDevice === d[0]), text: d[1],
+          onclick: function () { themePreviewDevice = d[0]; buildThemePanel(panel); } });
+      }));
+    const themeFrame = el("iframe", { class: "theme-live-frame", id: "theme-live-frame",
+      title: "Actual portfolio preview using the selected theme", src: "index.html?preview=1" });
+    panel.appendChild(el("div", { class: "theme-live-shell" },
+      el("div", { class: "preview-bar" },
+        el("strong", { text: "Your portfolio with this theme" }), deviceSwitch,
+        el("span", { class: "hint", id: "theme-preview-hint", text: "Loading the real site preview…" })),
+      el("div", { class: "theme-live-frame-wrap" + (themePreviewDevice === "mobile" ? " is-mobile" : "") }, themeFrame)));
+    themePreviewReady = false;
+
     const gallery = el("div", { class: "theme-gallery" });
+    function previewStyle(t) {
+      const r = TH.resolveTheme({ preset: t.id, fonts: {}, vars: { common: {}, dark: {}, light: {} }, templates: data.theme.templates });
+      const v = Object.assign({}, r.vars.common || {}, r.vars[editMode] || {});
+      const get = function (key, fallback) { return v[key] == null || v[key] === "" ? fallback : v[key]; };
+      return [
+        "--pm-accent:" + get("--accent", "#5cc8a8"),
+        "--pm-bg:" + get("--bg", "#11151b"),
+        "--pm-surface:" + get("--surface", "#18202a"),
+        "--pm-text:" + get("--text", "#eef2f7"),
+        "--pm-mid:" + get("--text-mid", "#b6c0cc"),
+        "--pm-dim:" + get("--text-dim", "#7f8b99"),
+        "--pm-border:" + get("--border", "#283341"),
+        "--pm-border-2:" + get("--border-2", "#3a4858"),
+        "--pm-radius:" + get("--radius-sm", "8px"),
+        "--pm-button-radius:" + get("--button-radius", get("--radius-sm", "8px")),
+        "--pm-card-border:" + get("--card-border-width", "1px"),
+        "--pm-shadow:" + get("--card-shadow", "none"),
+        "background:" + get("--bg", "#11151b")
+      ].join(";");
+    }
     function drawGallery() {
       clear(gallery);
+      const selectedId = resolvedTheme().id;
       data.theme.templates.concat(TH.THEMES).forEach(function (t) {
-        const v = (t.vars && t.vars[editMode]) || {};
         const isCustom = data.theme.templates.indexOf(t) !== -1;
-        const selected = data.theme.preset === t.id;
+        const selected = selectedId === t.id;
         gallery.appendChild(el("button", {
           type: "button", class: "theme-card", "aria-pressed": String(selected),
           onclick: function () { choosePreset(t.id); }
         },
-          el("span", { class: "theme-mock", style: "background:" + (v["--bg"] || "#111") },
-            el("span", { class: "m-bar", style: "width:62%;background:" + (v["--text"] || "#eee") }),
-            el("span", { class: "m-bar", style: "width:40%;background:" + (v["--text-dim"] || "#888") }),
-            el("span", { class: "m-chip", style: "background:" + (v["--accent"] || "#5cc8a8") })),
+          el("span", { class: "theme-preview-wrap" },
+            el("span", { class: "theme-mode-label", text: editMode + " preview" }),
+            el("span", { class: "theme-mock", style: previewStyle(t) },
+              el("span", { class: "m-nav" }, el("i", { class: "m-logo" }),
+                el("span", { class: "m-navlinks" }, el("i"), el("i"), el("i"))),
+              el("i", { class: "m-eyebrow" }),
+              el("i", { class: "m-title" }),
+              el("span", { class: "m-copy" }, el("i"), el("i")),
+              el("span", { class: "m-actions" }, el("i", { class: "m-button" }), el("i", { class: "m-button alt" })),
+              el("span", { class: "m-cards" }, el("i", { class: "m-card" }), el("i", { class: "m-card" })))),
           el("span", { class: "theme-body" },
             el("strong", { text: t.name + (isCustom ? " (yours)" : "") }),
             el("span", { text: t.blurb || "Custom template." }),
@@ -1051,6 +1093,7 @@
       data.theme.vars = { common: {}, dark: {}, light: {} };
       data.theme.fonts = {};
       touched();
+      if (applyThemeHere) applyThemeToEditor();
       buildThemePanel(panel);
     }
 
@@ -1062,7 +1105,11 @@
       ["dark", "light"].map(function (m) {
         return el("button", {
           type: "button", "aria-pressed": String(editMode === m), text: m === "dark" ? "Dark" : "Light",
-          onclick: function () { editMode = m; data.theme.mode = m; touched(); buildThemePanel(panel); }
+          onclick: function () {
+            editMode = m; data.theme.mode = m; touched();
+            if (applyThemeHere) applyThemeToEditor();
+            buildThemePanel(panel);
+          }
         });
       }));
 
@@ -1082,7 +1129,7 @@
         if (!window.confirm("Reset every tweak back to the " + TH.themeById(data.theme.preset, data.theme.templates).name + " template?")) return;
         data.theme.vars = { common: {}, dark: {}, light: {} };
         data.theme.fonts = {};
-        touched(); buildThemePanel(panel);
+        touched(); if (applyThemeHere) applyThemeToEditor(); buildThemePanel(panel);
       } }, "Reset tweaks")));
 
     const resolved = resolvedTheme();
@@ -1233,6 +1280,7 @@
             data.theme.vars = { common: {}, dark: {}, light: {} };
             data.theme.fonts = {};
             touched();
+            if (applyThemeHere) applyThemeToEditor();
             buildThemePanel(panel);
           } }, "Save template"))),
       saveTplMsg,
@@ -1246,7 +1294,7 @@
                   if (!window.confirm("Delete the template “" + t.name + "”?")) return;
                   data.theme.templates.splice(i, 1);
                   if (data.theme.preset === t.id) data.theme.preset = "graphite";
-                  touched(); buildThemePanel(panel);
+                  touched(); if (applyThemeHere) applyThemeToEditor(); buildThemePanel(panel);
                 }, "danger"));
             }))
         : null));
@@ -1603,12 +1651,34 @@
      PREVIEW BRIDGE
      ==================================================================== */
   window.addEventListener("message", function (e) {
+    const themeFrame = document.getElementById("theme-live-frame");
+    if (themeFrame && e.source === themeFrame.contentWindow && e.data && e.data.type === "portfolio:preview-ready") {
+      themePreviewReady = true;
+      sendThemePreview();
+      return;
+    }
     const frame = document.getElementById("preview-frame");
     if (!frame || e.source !== frame.contentWindow) return;
     if (!e.data || e.data.type !== "portfolio:preview-ready") return;
     previewReady = true;
     sendPreview();
   });
+
+  function sendThemePreview() {
+    const frame = document.getElementById("theme-live-frame");
+    const hint = document.getElementById("theme-preview-hint");
+    if (!frame || !frame.contentWindow) return;
+    if (!themePreviewReady) { if (hint) hint.textContent = "Loading the real site preview…"; return; }
+    frame.contentWindow.postMessage({
+      type: "portfolio:data",
+      data: JSON.parse(serialise()),
+      mode: editMode,
+      view: "site",
+      template: data.pdf.template,
+      paper: data.pdf.paper
+    }, "*");
+    if (hint) hint.textContent = "Live " + editMode + " preview using your content and selected site layout.";
+  }
 
   function sendPreview() {
     const frame = document.getElementById("preview-frame");
@@ -1644,6 +1714,7 @@
     updateDirty();
     repaintHints();
     if (activeTab === "preview") sendPreview();
+    if (activeTab === "theme") sendThemePreview();
   }
 
   function updateDirty() {

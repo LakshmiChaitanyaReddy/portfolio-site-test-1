@@ -3,18 +3,18 @@
     "pages": "auto",
     "paper": "a4",
     "exclude": [],
-    "template": "ats",
+    "template": "modern",
     "includeVisual": false
   },
   "theme": {
-    "mode": "light",
+    "mode": "dark",
     "vars": {
       "dark": {},
       "light": {},
       "common": {}
     },
     "fonts": {},
-    "preset": "minimal-light",
+    "preset": "bold-gradient",
     "customThemes": [],
     "iconAnimation": "lift"
   },
@@ -168,9 +168,9 @@
   ],
   "sections": [],
   "template": {
-    "look": "clean-recruiter",
-    "pack": "software-it",
-    "skeleton": "clean-recruiter",
+    "look": "creative-showcase",
+    "pack": "design-creative",
+    "skeleton": "creative-showcase",
     "careerChart": false
   },
   "education": [
@@ -232,20 +232,20 @@
     }
   ],
   "sectionOrder": [
+    "projects",
     "about",
     "experience",
     "skills",
-    "projects",
     "education",
     "certifications"
   ],
   "sectionLabels": {
-    "about": "Summary",
-    "skills": "Skills",
-    "projects": "Projects",
+    "about": "About",
+    "skills": "Disciplines",
+    "projects": "Work",
     "education": "Education",
-    "experience": "Experience",
-    "certifications": "Certifications"
+    "experience": "Clients & roles",
+    "certifications": "Recognition"
   },
   "certifications": [
     {
