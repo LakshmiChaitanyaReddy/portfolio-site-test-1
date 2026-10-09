@@ -1,26 +1,23 @@
 {
   "pdf": {
-    "pages": "auto",
-    "paper": "a4",
-    "exclude": [],
     "template": "ats",
-    "includeVisual": false
+    "paper": "a4",
+    "exclude": []
   },
   "theme": {
-    "mode": "light",
-    "vars": {
-      "dark": {},
-      "light": {},
-      "common": {}
-    },
+    "preset": "bold-gradient",
+    "mode": "dark",
+    "iconAnimation": "lift",
     "fonts": {},
-    "preset": "minimal-light",
-    "customThemes": [],
-    "iconAnimation": "lift"
+    "vars": {
+      "common": {},
+      "dark": {},
+      "light": {}
+    },
+    "templates": []
   },
   "skills": [
     {
-      "icon": "",
       "items": [
         "ITSM (Incident, Change, Problem, Catalog)",
         "Customer Service Management (CSM)",
@@ -31,7 +28,6 @@
       "category": "Core Modules"
     },
     {
-      "icon": "",
       "items": [
         "JavaScript (GlideScript)",
         "Script Includes",
@@ -45,7 +41,6 @@
       "category": "Development & APIs"
     },
     {
-      "icon": "",
       "items": [
         "Flow Designer",
         "ServiceNow SDK",
@@ -250,7 +245,6 @@
   "certifications": [
     {
       "abbr": "",
-      "icon": "",
       "name": "Certified System Administrator (CSA) ServiceNow",
       "year": "",
       "issuer": "",
@@ -258,7 +252,6 @@
     },
     {
       "abbr": "",
-      "icon": "",
       "name": "Certified Application Developer (CAD) ServiceNow",
       "year": "",
       "issuer": "",
@@ -266,7 +259,6 @@
     },
     {
       "abbr": "",
-      "icon": "",
       "name": "Certified Implementation Specialist – HRSD (CIS-HRSD) ServiceNow",
       "year": "",
       "issuer": "",
